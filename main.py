@@ -14,17 +14,28 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+    # start clock and init time delta for FPS
+    clock = pygame.time.Clock()
+    dt = 0
+
     # start game loop
     while True:
+        # call logger for bootdotdev cli tool assessment
         log_state()
 
+        # listen for window closure
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
 
+        # do stuff
         screen.fill("black")
 
+        # make chnages visible
         pygame.display.flip()
+
+        # cap framerate at 60fps
+        dt = clock.tick(60) / 1000
 
 
 if __name__ == "__main__":
