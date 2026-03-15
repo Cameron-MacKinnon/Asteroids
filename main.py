@@ -34,6 +34,7 @@ def main():
 
         # do stuff
         screen.fill("black")
+        player.update(dt)
         player.draw(screen)
 
         # make chnages visible
