@@ -2,6 +2,7 @@ import pygame
 
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_state
+from player import Player
 
 
 def main():
@@ -13,6 +14,9 @@ def main():
     # init pygame
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    # init objects
+    player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
 
     # start clock and init time delta for FPS
     clock = pygame.time.Clock()
@@ -30,6 +34,7 @@ def main():
 
         # do stuff
         screen.fill("black")
+        player.draw(screen)
 
         # make chnages visible
         pygame.display.flip()
