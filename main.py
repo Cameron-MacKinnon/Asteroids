@@ -1,7 +1,12 @@
+import sys
+from turtle import up
+
 import pygame
 
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
-from logger import log_state
+from logger import log_event, log_state
 from player import Player
 
 
@@ -15,7 +20,14 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-    # init objects
+    # init groups/objects
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = updatable
+    asteroid_field = AsteroidField()
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
 
     # start clock and init time delta for FPS
@@ -34,8 +46,14 @@ def main():
 
         # do stuff
         screen.fill("black")
-        player.update(dt)
-        player.draw(screen)
+        updatable.update(dt)
+        for a in asteroids:
+            if a.collides_with(player):
+                log_event("player hit!")
+                print("Game Over!")
+                sys.exit()
+        for unit in drawable:
+            unit.draw(screen)
 
         # make chnages visible
         pygame.display.flip()
