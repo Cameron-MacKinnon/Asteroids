@@ -47,18 +47,32 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
-        # do stuff
+        # colour screen black
         screen.fill("black")
+
+        # update object states
         updatable.update(dt)
+
+        # check for asteroid collisions
         for a in asteroids:
             if a.collides_with(player):
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
+
+        # check for asteroid hits!
+        for a in asteroids:
+            for projectile in shots:
+                if a.collides_with(projectile):
+                    log_event("asteroid_shot")
+                    a.kill()
+                    projectile.kill()
+
+        # render results
         for unit in drawable:
             unit.draw(screen)
 
-        # make chnages visible
+        # make changes visible
         pygame.display.flip()
 
         # cap framerate at 60fps
